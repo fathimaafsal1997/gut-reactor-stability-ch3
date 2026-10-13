@@ -22,12 +22,12 @@ Raw 16S rRNA gene reads are in the NCBI Sequence Read Archive (BioProject PRJNA_
 
 | Script | Produces | Values reported in the paper |
 |---|---|---|
-| `R/01_fig1_alpha_diversity.R` | Figure 1 (Hill number, q = 1) | Kruskal–Wallis: compartment p = 2.04 × 10⁻⁸; day p = 1.66 × 10⁻⁵ |
-| `R/02_fig2_figS3_beta_diversity_permanova.R` | Figure 2 (Bray–Curtis PCoA; day-to-day dissimilarity), Figure S3 (Jaccard) | PERMANOVA stage and run R²; Jaccard R²; windowed PERMANOVA (days 6–10); day-to-day Bray–Curtis after day 5 (0.238 ± 0.151) |
+| `R/01_fig1_alpha_diversity.R` | Figure 1 (Hill number, q = 1) | Kruskal-Wallis: compartment p = 2.04 × 10⁻⁸; day p = 1.66 × 10⁻⁵ |
+| `R/02_fig2_figS3_beta_diversity_permanova.R` | Figure 2 (Bray-Curtis PCoA; day-to-day dissimilarity), Figure S3 (Jaccard) | PERMANOVA stage and run R²; Jaccard R²; windowed PERMANOVA (days 6-10); day-to-day Bray-Curtis after day 5 (0.238 ± 0.151) |
 | `R/03_fig3_genus_barplots.R` | Figure 3 (20 most abundant genera) | — |
-| `R/04_fig4_fig5_metabolites_lmm.R` | Figures 4–5 (z-scored metabolite heatmaps) | Linear mixed-effects models (stage effect on NH₃, H₂S, FRAP) |
-| `R/05_fig6_fig7_diablo.R` | Figures 6–7 (DIABLO score and loading plots), DIABLO permutation histogram | Balanced error rate, permutation p |
-| `R/06_fig8_spearman.R` | Figure 8 (Spearman heatmap) | FDR-significant genus–metabolite correlations |
+| `R/04_fig4_fig5_metabolites_lmm.R` | Figures 4-5 (z-scored metabolite heatmaps) | Linear mixed-effects models (stage effect on NH₃, H₂S, FRAP) |
+| `R/05_fig6_fig7_diablo.R` | Figures 6-7 (DIABLO score and loading plots), DIABLO permutation histogram | Balanced error rate, permutation p |
+| `R/06_fig8_spearman.R` | Figure 8 (Spearman heatmap) | FDR-significant genus-metabolite correlations |
 
 ### Hydrodynamics (MATLAB, Supplementary Text S1)
 
