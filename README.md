@@ -1,7 +1,7 @@
 # Code for: Stability as a dynamic process: microbial and metabolic succession in a continuous in vitro gut reactor
 
-Analysis code for the manuscript (submitted to *Journal of Applied Microbiology*).
-Four reactor runs (TR1-TR4), ascending (AC), transverse (TC) and descending colon (DC), days 1–10.
+Analysis code for the Chapter 3 manuscript (submitted to *Journal of Applied Microbiology*).
+Four reactor runs (TR1–TR4), ascending (AC), transverse (TC) and descending colon (DC), days 1–10.
 
 ## Folder layout
 
@@ -16,18 +16,18 @@ hydrodynamics/                      MATLAB scripts for HRT and turnover (Supplem
 figures/                            created by the scripts
 ```
 
-Raw 16S rRNA gene reads are in the NCBI Sequence Read Archive (BioProject PRJNA_______).
+Raw 16S rRNA gene reads are in the NCBI Sequence Read Archive (BioProject PRJNA1543035).
 
 ## Scripts and what they produce
 
 | Script | Produces | Values reported in the paper |
 |---|---|---|
-| `R/01_fig1_alpha_diversity.R` | Figure 1 (Hill number, q = 1) | Kruskal-Wallis: compartment p = 2.04 × 10⁻⁸; day p = 1.66 × 10⁻⁵ |
-| `R/02_fig2_figS3_beta_diversity_permanova.R` | Figure 2 (Bray-Curtis PCoA; day-to-day dissimilarity), Figure S3 (Jaccard) | PERMANOVA stage and run R²; Jaccard R²; windowed PERMANOVA (days 6-10); day-to-day Bray-Curtis after day 5 (0.238 ± 0.151) |
+| `R/01_fig1_alpha_diversity.R` | Figure 1 (Hill number, q = 1) | Kruskal–Wallis p (compartment; day) |
+| `R/02_fig2_figS3_beta_diversity_permanova.R` | Figure 2 (Bray–Curtis PCoA; day-to-day dissimilarity), Figure S3 (Jaccard) | PERMANOVA stage and run R²; Jaccard R²; windowed PERMANOVA (days 6–10); day-to-day Bray–Curtis after day 5 (0.238 ± 0.151) |
 | `R/03_fig3_genus_barplots.R` | Figure 3 (20 most abundant genera) | — |
-| `R/04_fig4_fig5_metabolites_lmm.R` | Figures 4-5 (z-scored metabolite heatmaps) | Linear mixed-effects models (stage effect on NH₃, H₂S, FRAP) |
-| `R/05_fig6_fig7_diablo.R` | Figures 6-7 (DIABLO score and loading plots), DIABLO permutation histogram | Balanced error rate, permutation p |
-| `R/06_fig8_spearman.R` | Figure 8 (Spearman heatmap) | FDR-significant genus-metabolite correlations |
+| `R/04_fig4_fig5_metabolites_lmm.R` | Figures 4–5 (z-scored metabolite heatmaps) | Linear mixed-effects models (stage effect on NH₃, H₂S, FRAP) |
+| `R/05_fig6_fig7_diablo.R` | Figures 6–7 (DIABLO score and loading plots), DIABLO permutation histogram | Balanced error rate, permutation p |
+| `R/06_fig8_spearman.R` | Figure 8 (Spearman heatmap) | FDR-significant genus–metabolite correlations |
 
 ### Hydrodynamics (MATLAB, Supplementary Text S1)
 
@@ -37,9 +37,9 @@ Raw 16S rRNA gene reads are in the NCBI Sequence Read Archive (BioProject PRJNA_
 | `hydrodynamics/HRT_washout_nominal_vs_effective_5V.m` | Figure S2 (washout: ideal CSTR vs real pulse feeding) |
 | `hydrodynamics/HRT_calculation_RealOperation_5V.m` | Nominal and effective HRT of each compartment (Table S1) |
 
-Run each script from the repository root. Script 06 uses objects created by 05, so run 05 and 06 in the same R session.
+Set the working directory to this folder and run `source("run_all.R")`. It runs 01–06 in order, saves figures to `figures/`, and writes each script's printed results to `output/`. Script 06 uses objects created by 05, so they must run in the same R session.
 
 ## Software
 
-R 4.3.2; packages: tidyverse, vegan, patchwork, RColorBrewer, ggtext, lme4, lmerTest, mixOmics, igraph.
+R 4.6.1; packages: tidyverse, vegan, patchwork, RColorBrewer, ggtext, lme4, lmerTest, mixOmics, igraph.
 Exact versions: see `sessionInfo.txt`.
