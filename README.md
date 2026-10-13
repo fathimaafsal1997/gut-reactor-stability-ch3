@@ -1,6 +1,6 @@
 # Code for: Stability as a dynamic process: microbial and metabolic succession in a continuous in vitro gut reactor
 
-Analysis code for the Chapter 3 manuscript (submitted to *Journal of Applied Microbiology*).
+Analysis code for the manuscript (submitted to *Journal of Applied Microbiology*).
 Four reactor runs (TR1–TR4), ascending (AC), transverse (TC) and descending colon (DC), days 1–10.
 
 ## Folder layout
