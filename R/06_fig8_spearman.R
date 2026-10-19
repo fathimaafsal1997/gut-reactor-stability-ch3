@@ -14,6 +14,18 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 
+# PDF device that renders subscripts (NH3, H2S): the built-in Quartz PDF
+# device on a Mac (no XQuartz needed); cairo_pdf elsewhere; otherwise pdf()
+pdf_device <- function(filename, width, height, ...) {
+  if (isTRUE(capabilities("aqua"))) {
+    grDevices::quartz(type = "pdf", file = filename, width = width, height = height, ...)
+  } else if (isTRUE(capabilities("cairo"))) {
+    grDevices::cairo_pdf(filename, width = width, height = height, ...)
+  } else {
+    grDevices::pdf(filename, width = width, height = height, ...)
+  }
+}
+
 ############################
 # STEP 1 — EXTRACT DIABLO-SELECTED GENERA
 ############################
@@ -152,7 +164,7 @@ metab_display_labels <- c(
   "Caproic Acid" = "Caproic acid", "Heptapentoic Acid" = "Heptanoic acid",
   "IsoButyric Acid" = "Isobutyric acid", "Isovaleric Acid" = "Isovaleric acid",
   "Isocaproic Acid" = "Isocaproic acid",
-  "NH3" = "NH\u2083", "H2S" = "H\u2082S", "FRAP" = "FRAP")
+  "NH3" = "NH<sub>3</sub>", "H2S" = "H<sub>2</sub>S", "FRAP" = "FRAP")
 
 ############################
 # STEP 6B — EARLY/LATE STAGE SIDEBAR (y-axis annotation)
@@ -203,7 +215,8 @@ p_heat <- ggplot(res_df, aes(x = Metabolite, y = Taxa, fill = rho)) +
     high     = "#D6604D",
     midpoint = 0,
     limits   = c(-1, 1),
-    name     = "Spearman ρ"
+    name     = "Spearman ρ",
+    guide    = guide_colourbar(display = "rectangles")   # raster legends can render flipped on the Quartz PDF device
   ) +
   scale_colour_identity() +
   facet_grid(~ MetaboliteGroup, scales = "free_x", space = "free_x") +
@@ -211,7 +224,7 @@ p_heat <- ggplot(res_df, aes(x = Metabolite, y = Taxa, fill = rho)) +
   labs(x = NULL, y = NULL) +
   theme_classic(base_size = 11) +
   theme(
-    axis.text.x       = element_text(angle = 45, hjust = 1, size = 10),
+    axis.text.x       = ggtext::element_markdown(angle = 45, hjust = 1, size = 10),  # renders NH3/H2S subscripts on any device
     axis.text.y       = element_text(size = 9, face = "italic"),
     legend.position   = "right",
     legend.key.height = unit(1.2, "cm"),
@@ -242,7 +255,7 @@ p_stage <- ggplot(stage_df, aes(x = 1, y = Taxa, fill = Stage)) +
 ############################
 
 p_combined <- p_stage + p_heat +
-  plot_layout(widths = c(0.06, 1))
+  plot_layout(widths = c(0.06, 1), guides = "collect")   # both legends on the right, none clipped
 
 p_combined
 
@@ -261,11 +274,11 @@ tiff(
 print(p_combined)
 dev.off()
 
-cairo_pdf(file.path(out_dir, "Figure8_Spearman_heatmap.pdf"), width = 11.5, height = 7.3)
+pdf_device(file.path(out_dir, "Figure8_Spearman_heatmap.pdf"), width = 11.5, height = 7.3)
 print(p_combined)
 dev.off()
 
-cat("Saved:", file.path(out_dir, "Figure_Spearman_heatmap.pdf"), "\n")
+cat("Saved:", file.path(out_dir, "Figure8_Spearman_heatmap.pdf"), "\n")
 
 ############################
 # STEP 9 — PRINT SIGNIFICANT CORRELATIONS

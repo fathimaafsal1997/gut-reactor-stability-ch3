@@ -46,8 +46,8 @@ scfa_metabs <- c("Acetic.Acid", "Propionic.Acid", "Butyric.Acid", "total.SCFA")
 bcfa_metabs <- c("IsoButyric.Acid", "Isovaleric.Acid", "Isocaproic.Acid", "total.BCFA")
 
 metabolite_labels <- c(
-  "NH3"             = "NH\u2083",
-  "H2S"             = "H\u2082S",
+  "NH3"             = "NH<sub>3</sub>",
+  "H2S"             = "H<sub>2</sub>S",
   "FRAP"            = "FRAP",
   "Acetic.Acid"     = "Acetate",
   "Propionic.Acid"  = "Propionate",
@@ -66,7 +66,7 @@ metabolite_labels <- c(
 metab_long <- metab %>%
   pivot_longer(cols = -c(Run, Day, Compartment),
                names_to = "Metabolite", values_to = "Value") %>%
-  filter(!is.na(Value))
+  filter(!is.na(Run), Run != "", !is.na(Day))   # keep NA values: shown as grey "not determined" tiles
 
 metab_long_z <- metab_long %>%
   group_by(Metabolite) %>%
@@ -101,14 +101,16 @@ plot_heatmap <- function(data, metab_group, zlim_common = NULL) {
     facet_grid(Label ~ Run, labeller = labeller(Label = label_value, Run = label_value)) +
     scale_fill_gradient2(
       low = "#2166AC", mid = "white", high = "#D6604D",
-      midpoint = 0, limits = c(-zlim, zlim), name = "Z-score"
+      midpoint = 0, limits = c(-zlim, zlim), name = "Z-score",
+      na.value = "grey70",
+      guide = guide_colourbar(display = "rectangles")   # raster legends can render flipped on the Quartz PDF device
     ) +
     scale_x_continuous(breaks = 1:10, expand = c(0, 0)) +
     scale_y_discrete(expand = c(0, 0)) +
     theme_minimal(base_size = 11) +
     theme(
       strip.text.x = element_text(face = "bold", size = 10),
-      strip.text.y = element_text(face = "bold", size = 10, angle = 0, hjust = 0),
+      strip.text.y = ggtext::element_markdown(face = "bold", size = 10, angle = 0, hjust = 0),  # renders NH3/H2S subscripts on any device
       strip.background = element_rect(fill = "grey92", colour = NA),
       axis.text = element_text(size = 9),
       axis.title = element_text(size = 10),

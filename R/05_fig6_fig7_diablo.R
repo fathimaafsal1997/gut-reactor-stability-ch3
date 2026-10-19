@@ -164,7 +164,9 @@ metab_matrix <- as.data.frame(lapply(metab_matrix, as.numeric))
 rownames(metab_matrix) <- metab$SampleID
 
 # Remove derived columns
-drop_cols <- c("Total", "total.SCFA", "total.BCFA", "Others")
+# Isocaproic acid excluded: not quantifiable in 13 samples (co-eluting
+# artefact; stored as NA), and DIABLO does not accept missing values
+drop_cols <- c("Total", "total.SCFA", "total.BCFA", "Others", "Isocaproic.Acid")
 metab_matrix <- dplyr::select(metab_matrix, -dplyr::any_of(drop_cols))
 
 # Standardise metabolite names — use "Acetic.acid" throughout
